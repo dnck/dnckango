@@ -12,17 +12,29 @@ pip install psycopg2-binary
 ```
 Note on postgres install for my own UBUNTU computer:
 * login to the default postgres username with ```sudo su - postgres```, then enter ```psql```
+
 * each project needs its own database
+
 * create the database for the project with ```CREATE DATABASE projectname;```
+
 * create a user for postgres with ```CREATE USER username WITH PASSWORD 'password';```
+
 You can also set up some things with the database for speed and optimization:
+
 ** ```ALTER ROLE projectname SET client_encoding TO 'utf8';```
+
 ** ```ALTER ROLE projectname SET default_transaction_isolation TO 'read committed';```
+
 ** ```ALTER ROLE projectname SET timezone TO 'UTC';```
+
 I only did the 1st and 3rd
+
 * Give the username all access: ```GRANT ALL PRIVILEGES ON DATABASE projectname TO username;```
+
 * Exit with ```\q``` and then ```exit```
+
 For localhost dev, your ```settings.py``` will now have this block:
+
 ```
 DATABASES = {
     'default': {
@@ -35,3 +47,9 @@ DATABASES = {
     }
 }
 ```
+After installing all this, you should execute, ```python manage.py migrate```
+
+## Lesson 3. makemigrations
+You make your models for the database in, you guessed it, the models.py file of your app. To apply the changes that you make in the models.py file, run ```python manage.py makemigrations appname```. Stuff that you create with makemigrations gets dummped into the, you guessed it, migrations directory.
+
+You can check on what Django might do on the makemigrations command with ```python manage.py sqlmigrate```
