@@ -1,26 +1,14 @@
 from django.shortcuts import render
-# Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
+from django.db.models import F
+from django.urls import reverse
 from .models import Question
 from random import choice
+import time
 from matplotlib.colors import cnames
 hexcolors=list(cnames.values())
-
-# old index
-# def index(request):
-#     return HttpResponse("<h1>A Simple Poll App!</h1> \
-#     Hello! You're at the polls index page. <br>")
-
-# second index
-# def index(request):
-#     latest_question_list = Question.objects.order_by('pub_date')[:5]
-#     template = loader.get_template('polls/index.html')
-#     context = {'latest_question_list': latest_question_list, }
-#     return HttpResponse(template.render(context, request))
-#     # output = ', '.join([q.question_text for q in latest_question_list])
-#     #return HttpResponse(output)
 
 # short index using shortcuts
 def index(request):
@@ -43,10 +31,22 @@ def detail(request, question_id):
 
 
 def results(request, question_id):
-    return HttpResponse("You're looking at results for question {}".format(question_id))
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/results.html', {'question': question})
 
 def vote(request, question_id):
-    return HttpResponse("You're voting for question {}".format(question_id))
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice']) # first get the choice
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'polls/detail.html', {'question': question, 'error_message': 'You did not select a choice, mate.', })
+    else:
+        selected_choice.votes = F('votes') + 1 # eliminate race conditions!
+        selected_choice.save() # save
+        selected_choice.refresh_from_db()
+        # Always return an HttpResponse Redirect after sccessfully dealing with POST data
+        # this prevents data from being posted twice if a user hits the back button
+        return HttpResponseRedirect(reverse('polls:results', args=(question_id,)))
 
 # This function demonstrates the use of kwargs in the paths or urlpatterns in the polls app
 def zoofun(request, **kwargs):
@@ -66,4 +66,5 @@ def holyshit(request):
     holyshit=''
     for x in range(256):
         holyshit = holyshit+'<h1 style="color:{}">Holy shit!</h1>'.format(choice(hexcolors))
+    #time.sleep(60)
     return HttpResponse(holyshit)
