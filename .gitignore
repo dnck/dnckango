@@ -1,2 +1,3 @@
 mysite/mysite/settings.py
 **__pycache__
+/mysite/db.sqlite3
