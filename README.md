@@ -60,3 +60,20 @@ After installing all this, you should execute, ```python manage.py migrate```
 You make your models for the database in, you guessed it, the models.py file of your app. To apply the changes that you make in the models.py file, run ```python manage.py makemigrations appname```. Stuff that you create with makemigrations gets dummped into the, you guessed it, migrations directory.
 
 You can check on what Django might do on the makemigrations command with ```python manage.py sqlmigrate```
+
+## Lesson 4. Admin
+You add the admin page by going into the app, then importing your models, and registering the classes in your models.
+
+The admin page can handle things that the tutorial shows you how to do in command line in tutorial # 2. In my opinion, it is very powerful and a time saver.
+
+After doing the admin stuff, you can move on to the views.
+
+## Lesson 5. What does the website look like? views.py
+Ok, so, we wrote some new functions in the view.py file. They take a request, as we learned before, and they return an HttpResponse, which is perfect. This makes the request/response pattern in client-server programming easy.
+
+After you do that, go over to the urls.py file.
+
+### Templates
+These go into the templates dir of your app + the app name, so like, appname/templates/appname/index.html
+
+Be care with the templates files. They look like they're using dot-lookup syntax  for the templating, and the fors and ifs have to be embedded in brackets with percent signs and no spaces, so like this: ```{% for x in y %}``` will work but, ```{% for x in y % }``` won't work because of the space at the end of the statement.

@@ -1,0 +1,12 @@
+<h1>Polls_App</h1>
+<h2>Questions</h2>
+{% if latest_question_list %}
+    <p style="font-weight: bold"> --
+    {% for question in latest_question_list %}
+		    <!-- <a href="/polls/{{ question.id }}/">{{ question.question_text }}</a> -->
+        <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+	  {% endfor %}
+	</p>
+{% else %}
+    <p> No Polls are available. </p>
+{% endif %}
