@@ -77,3 +77,20 @@ After you do that, go over to the urls.py file.
 These go into the templates dir of your app + the app name, so like, appname/templates/appname/index.html
 
 Be care with the templates files. They look like they're using dot-lookup syntax  for the templating, and the fors and ifs have to be embedded in brackets with percent signs and no spaces, so like this: ```{% for x in y %}``` will work but, ```{% for x in y % }``` won't work because of the space at the end of the statement.
+
+## Lesson 6. Gotcha, tests!
+I got an error message:
+```
+Creating test database for alias 'default'...
+Got an error creating the test database: permission denied to create database
+```
+This is solved on ubuntu by logging into the superuser for the postgres db and then giving the user of the db named in the settings.py file permissions to create db with:
+```
+ALTER USER user CREATEDB;
+```
+
+So, anyway, on to the tests. This section of the tutorial is really worth the effort. I can't even begin to explain how much manual testing I've done in the passed on my code, and I had little to show for my app to my employers or colleagues. Essentially, they just had to trust that my code worked, or inspect all of it themselves. Obviously, neither of those things are reasonable to do. 1) I am not perfect and they shouldn't have to just trust me, and 2) my code is complex af, and they don't have the time to check all of it themselves, otherwise, they would have done that themselves! So, the tests philosophy section here was really great for me. Not only that, but if you write tests that are clear for the user or admin, then they can see that you've put effort into making their job easier to do. In that case, they would be more likely to play with the toy, and/or, trust that they toy does what it is supposed to do. In the future, I will definitely be structuring my projects around tests!!
+
+It's really this line in the tutorial that sums up everything:
+> "Again: whatever needs to be added to the software to accomplish this should be accompanied by a test, whether you write the test first and then make the code pass the test, or work out the logic in your code first and then write a test to prove it."
+I am much more of a, "work out the logic first, then write the tests kinda guy". Some people might be the opposite: they might like to have the test, and then make code to pass the test. It's maybe worth thinking about what makes these approaches different. 
