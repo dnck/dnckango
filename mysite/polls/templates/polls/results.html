@@ -1,8 +1,20 @@
-<h1>{{ question.question_text }}</h1>
-{% if error_message %}
-	<p><strong>{{ error_message }}</strong></p>
-{% endif %}
-	{% for choice in question.choice_set.all %}
-	<p>{{ choice.choice_text }}: {{ choice.votes }} vote{{ choice.votes|pluralize }}</p>
-	{% endfor %}
-	<a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/bootstrap.css' %}">
+<div class='container' id='na'>
+	<div class='col-sm-12 col-xs-12' id='na'>
+		<div class='row' id='na'>
+			<h1>{{ question.question_text }}</h1>
+		</div>
+		{% if error_message %}
+		<div class='row' id='na'>
+			<p><strong>{{ error_message }}</strong></p>
+		</div>
+		{% endif %}
+		{% for choice in question.choice_set.all %}
+		<div class='row' id='na'>
+			<p>{{ choice.choice_text }}: {{ choice.votes }} vote{{ choice.votes|pluralize }}</p>
+		</div>
+		{% endfor %}
+		<div class='row' id='na'>
+			<a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+		</div>
