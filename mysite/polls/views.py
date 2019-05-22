@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import F
 from django.urls import reverse
 from django.views import generic
+from django.views.generic import TemplateView
 from .models import Question
 # dnck fun stuff:
 import time
@@ -17,7 +18,7 @@ hexcolors=list(cnames.values())
 # # display a list of objects generic
 """
 This needs to be changed. We need the front page to be a list of available surveys.
-So, we will need a table in our table for the survey-link relation
+So, we will need a table in our tables for the survey-link relation
 """
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -28,8 +29,8 @@ class IndexView(generic.ListView):
 
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
-class SurveyView(generic.ListView):
-    template_name = 'polls/survey.html'
+class SurveysView(generic.ListView):
+    template_name = 'polls/surveys.html'
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
@@ -50,6 +51,9 @@ class DetailView(generic.DetailView):
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
+
+class AboutView(TemplateView):
+    template_name = "polls/about.html"
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)

@@ -20,7 +20,7 @@ class Question(models.Model):
     was_published_recently.admin_order_field = 'pub_date'
     was_published_recently.boolean = True
     was_published_recently.short_description = 'Published recently?'
-    
+
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE) # this model has a relationship to the preceeding model iow the choice is related to the question
@@ -29,4 +29,5 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+        
 # There are all sorts of database relations one-to-one, many-to-many, many-to-one
